@@ -1,0 +1,66 @@
+<h4 class="mt-5 mr-5">Filter</h4>
+<div class="form-check">
+    <h6>Filter By category</h6>
+    <input class="form-check-input" type="radio" name="category" id="flexRadioDefault1" value="electronics" >
+    <label class="form-check-label" for="flexRadioDefault1">
+      Electronics
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="category" id="flexRadioDefault2" value="clothing" >
+    <label class="form-check-label" for="flexRadioDefault2">
+     Clothing
+    </label>
+  </div>
+<div class="form-check">
+    <h6>Filter By price</h6>
+    <input class="form-check-input" type="radio" name="price" id="flexRadioDefault3" value=5 >
+    <label class="form-check-label" for="flexRadioDefault3">
+      less than $5
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="price" id="flexRadioDefault4" value=10 >
+    <label class="form-check-label" for="flexRadioDefault4">
+      less than $10
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="price" id="flexRadioDefault5" value=50  >
+    <label class="form-check-label" for="flexRadioDefault5">
+      less than $50
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="price" id="flexRadioDefault6" value=100 >
+    <label class="form-check-label" for="flexRadioDefault6">
+      less than $100
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="price" id="flexRadioDefault7" value=200 >
+    <label class="form-check-label" for="flexRadioDefault7">
+      less than $200
+    </label>
+  </div>
+   <button class="btn-dark mx-2 my-2" onclick="filter(event)">Apply Filter</button>
+  <script>
+const filter = (e)=>{
+    let price;
+    let category;
+    document.getElementsByName("price").forEach((el)=>{
+        if(el.checked){
+            price = el.value;
+        }
+    })
+    document.getElementsByName("category").forEach((el)=>{
+        if(el.checked){
+            category = el.value;
+        }
+    })
+    axios.get(`http://localhost:3000/items/${category}/${price}`).then((res)=>{
+      location.reload
+    }).catch((e)=>console.log(e));
+    
+} 
+  </script>

@@ -1,0 +1,21 @@
+
+body {
+  background-color: #E8ECEF;
+}
+
+.centered {
+    padding-top: 100px;
+    text-align: center;
+}
+.container{
+  margin-top: -5rem;
+}
+.secret-text {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  background-color: #000;
+}
+.filter{
+  display: flex;
+}

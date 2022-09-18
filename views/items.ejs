@@ -1,0 +1,114 @@
+<%- include('partials/header') %>
+<!-- <%- include('partials/filter') %> -->
+<h4 class="mt-5 mr-5">Filter</h4>
+<div class="form-check">
+    <h6>Filter By category</h6>
+    <input class="form-check-input" type="radio" name="category" id="flexRadioDefault1" value="electronics" >
+    <label class="form-check-label" for="flexRadioDefault1">
+      Electronics
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="category" id="flexRadioDefault2" value="clothing" >
+    <label class="form-check-label" for="flexRadioDefault2">
+     Clothing
+    </label>
+  </div>
+<div class="form-check">
+    <h6>Filter By price</h6>
+    <input class="form-check-input" type="radio" name="price" id="flexRadioDefault3" value=5 >
+    <label class="form-check-label" for="flexRadioDefault3">
+      less than $5
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="price" id="flexRadioDefault4" value=10 >
+    <label class="form-check-label" for="flexRadioDefault4">
+      less than $10
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="price" id="flexRadioDefault5" value=50  >
+    <label class="form-check-label" for="flexRadioDefault5">
+      less than $50
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="price" id="flexRadioDefault6" value=100 >
+    <label class="form-check-label" for="flexRadioDefault6">
+      less than $100
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="price" id="flexRadioDefault7" value=200 >
+    <label class="form-check-label" for="flexRadioDefault7">
+      less than $200
+    </label>
+  </div>
+   <button class="btn-dark mx-2 my-2" onclick="filter(event)">Apply Filter</button>
+<div class="jumbotron text-center">
+  <div class="container">
+    <i class="fas fa-key fa-6x"></i>
+    <h1 class="display-3">Your Items</h1>
+<div class="items">
+  <% 
+  Items.forEach(function(e){ %>
+    <% console.log(e) %>
+    <p class="secret-text"><%=e.name%>
+     <span> $<%=e.price%></span>
+     
+      <button class="btn btn-light my-3" onclick="myFunction(event)" name=<%=e._id%>>Delete</button>
+  </p>
+  <% }) %>
+</div>
+    
+
+
+
+    <hr>
+    <a class="btn btn-light btn-lg" href="/logout" role="button">Log Out</a>
+    <a class="btn btn-dark btn-lg" href="/submit" role="button">ADD ITEMS</a>
+  </div>
+</div>
+<script>
+  function myFunction(e) {
+    const id = e.target.name;
+    axios.delete(`http://localhost:3000/delete/${id}`).then((res)=>{
+      location.reload();
+    }).catch((e)=>console.log(e));
+  }
+  const filter = (e)=>{
+    let price;
+    let category;
+    document.getElementsByName("price").forEach((el)=>{
+        if(el.checked){
+            price = el.value;
+        }
+    })
+    document.getElementsByName("category").forEach((el)=>{
+        if(el.checked){
+            category = el.value;
+        }
+    })
+    axios.get(`http://localhost:3000/items/${category}/${price}`).then((res)=>{
+      const itemDiv = document.querySelector(".items");
+      itemDiv.innerHTML = "";
+      console.log(res.data.ItemsFound);
+      const html = res.data.ItemsFound.map(e=>{
+        return (`
+          <p class="secret-text">${e.name}
+     <span> $${e.price}</span>
+     
+      <button class="btn btn-light my-3" onclick="myFunction(event)" name=${e._id}>Delete</button>
+  </p>
+        `)
+      }).join('')
+      console.log(html);
+      itemDiv.innerHTML = html
+    }).catch((e)=>console.log(e));
+  }
+  
+  
+    
+  </script>
+<%- include('partials/footer') %>
